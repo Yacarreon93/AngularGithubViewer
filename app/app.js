@@ -3,4 +3,4 @@
 // Declare app level module which depends on views, and components
 var app = angular.module('githubViewer', [])
 
-app.controller('MainController', ['$scope', '$http', MainController])
+app.controller('MainController', ['$scope', '$http', '$interval', MainController])
