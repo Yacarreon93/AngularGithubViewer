@@ -1,0 +1,23 @@
+<div>
+  <h2>{{repo.name}}</h2>
+  {{error}}
+  <p>{{repo.open_issues_count}}</p>
+  <img ng-src="{{repo.avatar_url}}"></img>
+</div>
+
+ <table>
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="user in repo.collaborators | orderBy:collaboratorsSortOrder">
+      <td>{{user.login}}</td>
+      <td><img ng-src="{{user.gravatar-id}}"></img></td>
+    </tr>
+  </tbody>
+</table> 
+
+<a href="#/user/{{username}}">Back to user</a>
+<a href="#/main">Back to search</a>

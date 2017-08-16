@@ -1,48 +1,36 @@
-var MainController = function (
-  $scope, github, $interval, 
-  $log, $anchorScroll, $location) {
+(function () {
 
-  var onUserComplete = function (data) {
-    $scope.user = data
-    github.getRepos($scope.user).then(onRepos, onError)
-  }
+  var app = angular.module('githubViewer')
 
-  var onRepos = function (data) {
-    $scope.repos = data
-    $location.hash("userDetails")
-    $anchorScroll()
-  }
+  var MainController = function ($scope, $interval, $location) {
 
-  var onError = function (reason) {
-    $scope.error = 'Could not fetch the data'
-  }
+    $scope.title = 'Github Viewer'
+    $scope.username = 'angular'
+    $scope.countdown = 5
 
-  $scope.username = 'angular'
-  $scope.title = 'Github Viewer'
-
-  $scope.search = function (username) { 
-    $log.info('Searching for ' + username)
-    github.getUser(username).then(onUserComplete, onError)
-    if (countdownInterval) {
-      $interval.cancel(countdownInterval)
-      $scope.countdown = null
+    $scope.search = function (username) {
+      if (countdownInterval) {
+        $interval.cancel(countdownInterval)
+        $scope.countdown = null
+      }
+      $location.path('/user/' + username)
     }
-  }
 
-  // $scope.search($scope.username)
-  $scope.repoSortOrder = '-stargazers_count'
-  $scope.countdown = 5
-
-  var decrementCountdown = function () {
-    $scope.countdown -= 1
-    if ($scope.countdown < 1) {
-      $scope.search($scope.username)
+    var decrementCountdown = function () {
+      $scope.countdown -= 1
+      if ($scope.countdown < 1) {
+        $scope.search($scope.username)
+      }
     }
+
+    var startCountdown = function () {
+      countdownInterval = $interval(decrementCountdown, 1000, $scope.countdown)
+    }
+
+    startCountdown()
+
   }
 
-  var startCountdown = function () {
-    countdownInterval = $interval(decrementCountdown, 1000, $scope.countdown)
-  }
+  app.controller('MainController', MainController)
 
-  startCountdown()
-}
+}())

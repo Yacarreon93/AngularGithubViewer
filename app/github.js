@@ -16,9 +16,25 @@
                   .then(returnData)
     }
 
+    var getRepo = function (username, repoName) {
+      var repo
+      var url = 'https://api.github.com/repos/' + username + '/' + repoName
+      return $http.get(url)
+                  .then(function (response) {
+                    repo = response.data
+                    return $http.get(url + '/collaborators')
+                  })
+                  .then(function (response) {
+                    console.log('asd' + response)
+                    repo.collaborators = response.data
+                    return repo
+                  })
+    }
+
     return {
       getUser: getUser,
-      getRepos: getRepos
+      getRepos: getRepos,
+      getRepo: getRepo
     }
 
   }

@@ -1,6 +1,24 @@
 'use strict';
 
-// Declare app level module which depends on views, and components
-var app = angular.module('githubViewer', [])
+(function () {
 
-app.controller('MainController', MainController)
+  var app = angular.module('githubViewer', ['ngRoute'])
+
+  app.config(function ($routeProvider) {
+    $routeProvider
+      .when('/main', {
+        templateUrl: 'main.html',
+        controller: 'MainController'
+      })
+      .when('/user/:username', {
+        templateUrl: 'user.html',
+        controller: 'UserController'
+      })
+      .when('/repos/:username/:repoName', {
+        templateUrl: 'repo.html',
+        controller: 'RepoController'
+      })
+      .otherwise({ redirectTo: '/main' })
+  })
+
+}())
