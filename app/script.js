@@ -1,4 +1,6 @@
-var MainController = function ($scope, $http, $interval, $log) {
+var MainController = function (
+  $scope, $http, $interval, 
+  $log, $anchorScroll, $location) {
   var onUserComplete = function (response) {
     $scope.user = response.data
     $http.get($scope.user.repos_url)
@@ -6,6 +8,8 @@ var MainController = function ($scope, $http, $interval, $log) {
   }
   var onRepos = function (response) {
     $scope.repos = response.data
+    $location.hash("userDetails")
+    $anchorScroll()
   }
   var onError = function (reason) {
     $scope.error = 'Could not fetch the data'
